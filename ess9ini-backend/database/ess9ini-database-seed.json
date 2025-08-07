@@ -1,0 +1,772 @@
+{
+  "database": "ess9ini-farm",
+  "collections": {
+    "users": [
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439011"},
+        "email": "farmer@ess9ini.com",
+        "password": "$2a$12$LQv3c1yqBwEHxPuNYjsmHOToxw9fHdFaFc3aL5TIiOWaQQP8jLRXy",
+        "firstName": "أحمد",
+        "lastName": "بن علي",
+        "role": "farmer",
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "phone": "+216 98 123 456",
+        "language": "ar",
+        "isActive": true,
+        "emailVerified": true,
+        "lastLogin": {"$date": "2024-01-15T10:30:00.000Z"},
+        "loginAttempts": 0,
+        "profile": {
+          "avatar": null,
+          "bio": "مزارع زيتون من قابس",
+          "location": {
+            "address": "قابس، تونس",
+            "city": "Gabès",
+            "region": "Gabès",
+            "coordinates": {
+              "latitude": 33.8815,
+              "longitude": 10.0982
+            }
+          },
+          "notifications": {
+            "email": true,
+            "sms": true,
+            "push": true,
+            "alerts": {
+              "critical": true,
+              "warning": true,
+              "info": false
+            }
+          },
+          "preferences": {
+            "units": "metric",
+            "timezone": "Africa/Tunis",
+            "theme": "light",
+            "dashboardLayout": "default"
+          }
+        },
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T10:30:00.000Z"}
+      },
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439013"},
+        "email": "admin@ess9ini.com",
+        "password": "$2a$12$LQv3c1yqBwEHxPuNYjsmHOToxw9fHdFaFc3aL5TIiOWaQQP8jLRXy",
+        "firstName": "محمد",
+        "lastName": "الإداري",
+        "role": "admin",
+        "farmId": null,
+        "phone": "+216 98 987 654",
+        "language": "ar",
+        "isActive": true,
+        "emailVerified": true,
+        "lastLogin": {"$date": "2024-01-15T09:00:00.000Z"},
+        "loginAttempts": 0,
+        "profile": {
+          "notifications": {
+            "email": true,
+            "sms": true,
+            "push": true,
+            "alerts": {
+              "critical": true,
+              "warning": true,
+              "info": true
+            }
+          },
+          "preferences": {
+            "units": "metric",
+            "timezone": "Africa/Tunis",
+            "theme": "dark",
+            "dashboardLayout": "admin"
+          }
+        },
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T09:00:00.000Z"}
+      }
+    ],
+    "farms": [
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439012"},
+        "name": "مزرعة الزياتين",
+        "nameEn": "Olive Farm Gabès",
+        "description": "مزرعة زيتون تقليدية في قابس مع نظام ري ذكي",
+        "owner": {"$oid": "507f1f77bcf86cd799439011"},
+        "location": {
+          "address": "طريق مطماطة، قابس، تونس",
+          "city": "Gabès",
+          "region": "Gabès",
+          "coordinates": {
+            "latitude": 33.8815,
+            "longitude": 10.0982
+          },
+          "area": 12.5,
+          "zones": [
+            {
+              "id": 1,
+              "name": "المنطقة الشمالية",
+              "area": 3.2,
+              "cropType": "olive_trees",
+              "soilType": "clay_loam",
+              "irrigationSystem": "drip",
+              "targetMoisture": 80
+            },
+            {
+              "id": 2,
+              "name": "المنطقة الجنوبية",
+              "area": 4.1,
+              "cropType": "olive_trees",
+              "soilType": "sandy_loam",
+              "irrigationSystem": "drip",
+              "targetMoisture": 75
+            },
+            {
+              "id": 3,
+              "name": "المنطقة الشرقية",
+              "area": 2.8,
+              "cropType": "date_palms",
+              "soilType": "clay",
+              "irrigationSystem": "flood",
+              "targetMoisture": 85
+            },
+            {
+              "id": 4,
+              "name": "المنطقة الغربية",
+              "area": 2.4,
+              "cropType": "olive_trees",
+              "soilType": "loam",
+              "irrigationSystem": "drip",
+              "targetMoisture": 80
+            }
+          ]
+        },
+        "cropTypes": ["olive_trees", "date_palms"],
+        "primaryCrop": "olive_trees",
+        "soilType": "clay_loam",
+        "irrigationSystem": "drip",
+        "establishedDate": {"$date": "2010-03-15T00:00:00.000Z"},
+        "targetMoisture": 80,
+        "settings": {
+          "autoIrrigation": {
+            "enabled": true,
+            "schedule": [
+              {
+                "time": "06:00",
+                "duration": 30,
+                "zones": [1, 2, 4],
+                "days": ["monday", "wednesday", "friday"]
+              },
+              {
+                "time": "18:00",
+                "duration": 20,
+                "zones": [3],
+                "days": ["tuesday", "thursday", "saturday"]
+              }
+            ],
+            "moistureThreshold": 40
+          },
+          "alerts": {
+            "lowMoisture": {
+              "enabled": true,
+              "threshold": 30
+            },
+            "lowBattery": {
+              "enabled": true,
+              "threshold": 20
+            },
+            "sensorOffline": {
+              "enabled": true,
+              "timeout": 300
+            }
+          },
+          "notifications": {
+            "email": true,
+            "sms": false,
+            "push": true
+          }
+        },
+        "statistics": {
+          "totalSensors": 4,
+          "activeSensors": 4,
+          "totalIrrigationEvents": 156,
+          "totalWaterUsed": 12450,
+          "averageMoisture": 72,
+          "lastIrrigation": {"$date": "2024-01-14T18:30:00.000Z"}
+        },
+        "isActive": true,
+        "images": [
+          {
+            "url": "/uploads/farm-image-1.jpg",
+            "caption": "منظر عام للمزرعة",
+            "uploadedAt": {"$date": "2024-01-10T00:00:00.000Z"}
+          }
+        ],
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T00:00:00.000Z"}
+      }
+    ],
+    "sensors": [
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439014"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "deviceId": "ESP32_001",
+        "name": "مستشعر المنطقة الشمالية",
+        "type": "soil_moisture",
+        "location": {
+          "x": 80,
+          "y": 60,
+          "zone": "المنطقة الشمالية",
+          "depth": 15,
+          "coordinates": {
+            "latitude": 33.8820,
+            "longitude": 10.0985
+          }
+        },
+        "specifications": {
+          "model": "Capacitive Soil Moisture v1.2",
+          "manufacturer": "DFRobot",
+          "version": "1.2",
+          "range": {
+            "min": 0,
+            "max": 100,
+            "unit": "%"
+          },
+          "accuracy": "±2%",
+          "batteryCapacity": 3000,
+          "transmissionRange": 1000,
+          "operatingTemperature": {
+            "min": -20,
+            "max": 60
+          }
+        },
+        "calibration": {
+          "dryValue": 595,
+          "wetValue": 239,
+          "lastCalibrated": {"$date": "2024-01-01T00:00:00.000Z"},
+          "calibratedBy": {"$oid": "507f1f77bcf86cd799439011"},
+          "notes": "معايرة أولية للمستشعر"
+        },
+        "status": "active",
+        "connectivity": {
+          "protocol": "WiFi",
+          "signalStrength": -45,
+          "lastSeen": {"$date": "2024-01-15T12:00:00.000Z"},
+          "firmware": {
+            "version": "1.2.3",
+            "lastUpdate": {"$date": "2024-01-05T00:00:00.000Z"}
+          }
+        },
+        "maintenance": {
+          "installDate": {"$date": "2024-01-01T00:00:00.000Z"},
+          "lastMaintenance": {"$date": "2024-01-01T00:00:00.000Z"},
+          "nextMaintenance": {"$date": "2024-04-01T00:00:00.000Z"},
+          "maintenanceInterval": 90,
+          "notes": [
+            {
+              "date": {"$date": "2024-01-01T00:00:00.000Z"},
+              "technician": {"$oid": "507f1f77bcf86cd799439011"},
+              "type": "installation",
+              "description": "تركيب المستشعر في المنطقة الشمالية",
+              "cost": 0
+            }
+          ]
+        },
+        "alerts": {
+          "lowBattery": {
+            "enabled": true,
+            "threshold": 20
+          },
+          "offline": {
+            "enabled": true,
+            "timeout": 300
+          },
+          "moistureThreshold": {
+            "enabled": true,
+            "low": 30,
+            "high": 90
+          }
+        },
+        "statistics": {
+          "totalReadings": 1250,
+          "lastReading": {
+            "moistureLevel": 75,
+            "temperature": 22,
+            "batteryLevel": 85,
+            "timestamp": {"$date": "2024-01-15T12:00:00.000Z"}
+          },
+          "averages": {
+            "moisture": {
+              "daily": 72,
+              "weekly": 74,
+              "monthly": 71
+            },
+            "temperature": {
+              "daily": 23,
+              "weekly": 22,
+              "monthly": 20
+            }
+          },
+          "uptime": 98.5
+        },
+        "isActive": true,
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      },
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439015"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "deviceId": "ESP32_002",
+        "name": "مستشعر المنطقة الجنوبية",
+        "type": "soil_moisture",
+        "location": {
+          "x": 180,
+          "y": 80,
+          "zone": "المنطقة الجنوبية",
+          "depth": 15,
+          "coordinates": {
+            "latitude": 33.8810,
+            "longitude": 10.0990
+          }
+        },
+        "specifications": {
+          "model": "Capacitive Soil Moisture v1.2",
+          "manufacturer": "DFRobot",
+          "version": "1.2",
+          "range": {
+            "min": 0,
+            "max": 100,
+            "unit": "%"
+          },
+          "accuracy": "±2%",
+          "batteryCapacity": 3000,
+          "transmissionRange": 1000,
+          "operatingTemperature": {
+            "min": -20,
+            "max": 60
+          }
+        },
+        "calibration": {
+          "dryValue": 610,
+          "wetValue": 245,
+          "lastCalibrated": {"$date": "2024-01-01T00:00:00.000Z"},
+          "calibratedBy": {"$oid": "507f1f77bcf86cd799439011"},
+          "notes": "معايرة أولية للمستشعر"
+        },
+        "status": "active",
+        "connectivity": {
+          "protocol": "WiFi",
+          "signalStrength": -52,
+          "lastSeen": {"$date": "2024-01-15T12:00:00.000Z"},
+          "firmware": {
+            "version": "1.2.3",
+            "lastUpdate": {"$date": "2024-01-05T00:00:00.000Z"}
+          }
+        },
+        "maintenance": {
+          "installDate": {"$date": "2024-01-01T00:00:00.000Z"},
+          "lastMaintenance": {"$date": "2024-01-01T00:00:00.000Z"},
+          "nextMaintenance": {"$date": "2024-04-01T00:00:00.000Z"},
+          "maintenanceInterval": 90,
+          "notes": []
+        },
+        "alerts": {
+          "lowBattery": {
+            "enabled": true,
+            "threshold": 20
+          },
+          "offline": {
+            "enabled": true,
+            "timeout": 300
+          },
+          "moistureThreshold": {
+            "enabled": true,
+            "low": 30,
+            "high": 90
+          }
+        },
+        "statistics": {
+          "totalReadings": 1180,
+          "lastReading": {
+            "moistureLevel": 68,
+            "temperature": 24,
+            "batteryLevel": 78,
+            "timestamp": {"$date": "2024-01-15T12:00:00.000Z"}
+          },
+          "averages": {
+            "moisture": {
+              "daily": 69,
+              "weekly": 71,
+              "monthly": 68
+            },
+            "temperature": {
+              "daily": 24,
+              "weekly": 23,
+              "monthly": 21
+            }
+          },
+          "uptime": 96.8
+        },
+        "isActive": true,
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      },
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439016"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "deviceId": "ESP32_003",
+        "name": "مستشعر المنطقة الشرقية",
+        "type": "soil_moisture",
+        "location": {
+          "x": 280,
+          "y": 120,
+          "zone": "المنطقة الشرقية",
+          "depth": 20,
+          "coordinates": {
+            "latitude": 33.8825,
+            "longitude": 10.0995
+          }
+        },
+        "specifications": {
+          "model": "Capacitive Soil Moisture v1.2",
+          "manufacturer": "DFRobot",
+          "version": "1.2",
+          "range": {
+            "min": 0,
+            "max": 100,
+            "unit": "%"
+          },
+          "accuracy": "±2%",
+          "batteryCapacity": 3000,
+          "transmissionRange": 1000,
+          "operatingTemperature": {
+            "min": -20,
+            "max": 60
+          }
+        },
+        "calibration": {
+          "dryValue": 580,
+          "wetValue": 230,
+          "lastCalibrated": {"$date": "2024-01-01T00:00:00.000Z"},
+          "calibratedBy": {"$oid": "507f1f77bcf86cd799439011"},
+          "notes": "معايرة للنخيل"
+        },
+        "status": "active",
+        "connectivity": {
+          "protocol": "WiFi",
+          "signalStrength": -48,
+          "lastSeen": {"$date": "2024-01-15T12:00:00.000Z"},
+          "firmware": {
+            "version": "1.2.3",
+            "lastUpdate": {"$date": "2024-01-05T00:00:00.000Z"}
+          }
+        },
+        "maintenance": {
+          "installDate": {"$date": "2024-01-01T00:00:00.000Z"},
+          "lastMaintenance": {"$date": "2024-01-01T00:00:00.000Z"},
+          "nextMaintenance": {"$date": "2024-04-01T00:00:00.000Z"},
+          "maintenanceInterval": 90,
+          "notes": []
+        },
+        "alerts": {
+          "lowBattery": {
+            "enabled": true,
+            "threshold": 20
+          },
+          "offline": {
+            "enabled": true,
+            "timeout": 300
+          },
+          "moistureThreshold": {
+            "enabled": true,
+            "low": 35,
+            "high": 95
+          }
+        },
+        "statistics": {
+          "totalReadings": 1320,
+          "lastReading": {
+            "moistureLevel": 82,
+            "temperature": 25,
+            "batteryLevel": 92,
+            "timestamp": {"$date": "2024-01-15T12:00:00.000Z"}
+          },
+          "averages": {
+            "moisture": {
+              "daily": 80,
+              "weekly": 82,
+              "monthly": 79
+            },
+            "temperature": {
+              "daily": 25,
+              "weekly": 24,
+              "monthly": 22
+            }
+          },
+          "uptime": 99.2
+        },
+        "isActive": true,
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      },
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439017"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "deviceId": "ESP32_004",
+        "name": "مستشعر المنطقة الغربية",
+        "type": "soil_moisture",
+        "location": {
+          "x": 120,
+          "y": 180,
+          "zone": "المنطقة الغربية",
+          "depth": 15,
+          "coordinates": {
+            "latitude": 33.8805,
+            "longitude": 10.0975
+          }
+        },
+        "specifications": {
+          "model": "Capacitive Soil Moisture v1.2",
+          "manufacturer": "DFRobot",
+          "version": "1.2",
+          "range": {
+            "min": 0,
+            "max": 100,
+            "unit": "%"
+          },
+          "accuracy": "±2%",
+          "batteryCapacity": 3000,
+          "transmissionRange": 1000,
+          "operatingTemperature": {
+            "min": -20,
+            "max": 60
+          }
+        },
+        "calibration": {
+          "dryValue": 605,
+          "wetValue": 240,
+          "lastCalibrated": {"$date": "2024-01-01T00:00:00.000Z"},
+          "calibratedBy": {"$oid": "507f1f77bcf86cd799439011"},
+          "notes": "معايرة أولية للمستشعر"
+        },
+        "status": "active",
+        "connectivity": {
+          "protocol": "WiFi",
+          "signalStrength": -55,
+          "lastSeen": {"$date": "2024-01-15T12:00:00.000Z"},
+          "firmware": {
+            "version": "1.2.3",
+            "lastUpdate": {"$date": "2024-01-05T00:00:00.000Z"}
+          }
+        },
+        "maintenance": {
+          "installDate": {"$date": "2024-01-01T00:00:00.000Z"},
+          "lastMaintenance": {"$date": "2024-01-01T00:00:00.000Z"},
+          "nextMaintenance": {"$date": "2024-04-01T00:00:00.000Z"},
+          "maintenanceInterval": 90,
+          "notes": []
+        },
+        "alerts": {
+          "lowBattery": {
+            "enabled": true,
+            "threshold": 20
+          },
+          "offline": {
+            "enabled": true,
+            "timeout": 300
+          },
+          "moistureThreshold": {
+            "enabled": true,
+            "low": 30,
+            "high": 90
+          }
+        },
+        "statistics": {
+          "totalReadings": 1095,
+          "lastReading": {
+            "moistureLevel": 71,
+            "temperature": 23,
+            "batteryLevel": 88,
+            "timestamp": {"$date": "2024-01-15T12:00:00.000Z"}
+          },
+          "averages": {
+            "moisture": {
+              "daily": 73,
+              "weekly": 75,
+              "monthly": 72
+            },
+            "temperature": {
+              "daily": 23,
+              "weekly": 22,
+              "monthly": 20
+            }
+          },
+          "uptime": 97.8
+        },
+        "isActive": true,
+        "createdAt": {"$date": "2024-01-01T00:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      }
+    ],
+    "sensorreadings": [
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439018"},
+        "sensorId": {"$oid": "507f1f77bcf86cd799439014"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "readings": {
+          "moistureLevel": 75,
+          "temperature": 22,
+          "humidity": 65,
+          "batteryLevel": 85,
+          "signalStrength": -45
+        },
+        "rawData": {
+          "moistureRaw": 350,
+          "temperatureRaw": 2200,
+          "humidityRaw": 650
+        },
+        "timestamp": {"$date": "2024-01-15T12:00:00.000Z"},
+        "quality": "good",
+        "processed": true,
+        "alerts": [],
+        "metadata": {
+          "deviceInfo": {
+            "firmware": "1.2.3",
+            "bootCount": 45,
+            "freeMemory": 45000
+          },
+          "networkInfo": {
+            "ssid": "Ess9ini-Farm-WiFi",
+            "rssi": -45,
+            "ip": "192.168.1.101"
+          },
+          "weather": {
+            "temperature": 24,
+            "humidity": 68,
+            "pressure": 1013.25,
+            "windSpeed": 12
+          }
+        },
+        "createdAt": {"$date": "2024-01-15T12:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      },
+      {
+        "_id": {"$oid": "507f1f77bcf86cd799439019"},
+        "sensorId": {"$oid": "507f1f77bcf86cd799439015"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "readings": {
+          "moistureLevel": 68,
+          "temperature": 24,
+          "humidity": 62,
+          "batteryLevel": 78,
+          "signalStrength": -52
+        },
+        "rawData": {
+          "moistureRaw": 380,
+          "temperatureRaw": 2400,
+          "humidityRaw": 620
+        },
+        "timestamp": {"$date": "2024-01-15T12:00:00.000Z"},
+        "quality": "good",
+        "processed": true,
+        "alerts": [],
+        "metadata": {
+          "deviceInfo": {
+            "firmware": "1.2.3",
+            "bootCount": 38,
+            "freeMemory": 44500
+          },
+          "networkInfo": {
+            "ssid": "Ess9ini-Farm-WiFi",
+            "rssi": -52,
+            "ip": "192.168.1.102"
+          }
+        },
+        "createdAt": {"$date": "2024-01-15T12:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-15T12:00:00.000Z"}
+      }
+    ],
+    "irrigationevents": [
+      {
+        "_id": {"$oid": "507f1f77bcf86cd79943901a"},
+        "farmId": {"$oid": "507f1f77bcf86cd799439012"},
+        "userId": {"$oid": "507f1f77bcf86cd799439011"},
+        "type": "manual",
+        "zones": [1, 2, 4],
+        "duration": 30,
+        "waterAmount": {
+          "planned": 150,
+          "actual": 145
+        },
+        "schedule": {
+          "startTime": {"$date": "2024-01-14T18:00:00.000Z"},
+          "endTime": {"$date": "2024-01-14T18:30:00.000Z"},
+          "actualStartTime": {"$date": "2024-01-14T18:02:00.000Z"},
+          "actualEndTime": {"$date": "2024-01-14T18:32:00.000Z"}
+        },
+        "status": "completed",
+        "trigger": {
+          "reason": "manual",
+          "sensorReadings": [
+            {"$oid": "507f1f77bcf86cd799439018"},
+            {"$oid": "507f1f77bcf86cd799439019"}
+          ],
+          "moistureLevels": [
+            {
+              "zone": 1,
+              "sensorId": {"$oid": "507f1f77bcf86cd799439014"},
+              "moistureLevel": 45,
+              "timestamp": {"$date": "2024-01-14T17:55:00.000Z"}
+            },
+            {
+              "zone": 2,
+              "sensorId": {"$oid": "507f1f77bcf86cd799439015"},
+              "moistureLevel": 42,
+              "timestamp": {"$date": "2024-01-14T17:55:00.000Z"}
+            }
+          ]
+        },
+        "settings": {
+          "flowRate": 5,
+          "pressure": 2.5,
+          "temperature": 20,
+          "fertilizer": {
+            "enabled": false
+          }
+        },
+        "results": {
+          "waterUsed": 145,
+          "efficiency": 96.7,
+          "moistureIncrease": [
+            {
+              "zone": 1,
+              "sensorId": {"$oid": "507f1f77bcf86cd799439014"},
+              "beforeMoisture": 45,
+              "afterMoisture": 75,
+              "increase": 30,
+              "timestamp": {"$date": "2024-01-14T19:00:00.000Z"}
+            },
+            {
+              "zone": 2,
+              "sensorId": {"$oid": "507f1f77bcf86cd799439015"},
+              "beforeMoisture": 42,
+              "afterMoisture": 68,
+              "increase": 26,
+              "timestamp": {"$date": "2024-01-14T19:00:00.000Z"}
+            }
+          ],
+          "coverage": 95,
+          "uniformity": 88
+        },
+        "alerts": [],
+        "notes": "ري يدوي بعد انخفاض مستوى الرطوبة",
+        "cost": {
+          "water": 2.5,
+          "electricity": 1.2,
+          "fertilizer": 0,
+          "total": 3.7
+        },
+        "createdAt": {"$date": "2024-01-14T18:00:00.000Z"},
+        "updatedAt": {"$date": "2024-01-14T18:32:00.000Z"}
+      }
+    ]
+  }
+}
