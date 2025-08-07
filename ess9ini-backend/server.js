@@ -7,15 +7,36 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-// Import routes
-const authRoutes = require('./src/routes/auth');
-const userRoutes = require('./src/routes/users');
-const farmRoutes = require('./src/routes/farms');
-const sensorRoutes = require('./src/routes/sensors');
-const irrigationRoutes = require('./src/routes/irrigation');
-
 // Import middleware
-const errorHandler = require('./src/middleware/errorHandler');
+const { errorHandler } = require('./src/middleware/errorHandler');
+
+// Import routes (only if they exist and work)
+let authRoutes, userRoutes, farmRoutes, sensorRoutes, irrigationRoutes;
+try {
+  authRoutes = require('./src/routes/auth');
+} catch (err) {
+  console.log('⚠️  Auth routes not available:', err.message);
+}
+try {
+  userRoutes = require('./src/routes/users');
+} catch (err) {
+  console.log('⚠️  User routes not available:', err.message);
+}
+try {
+  farmRoutes = require('./src/routes/farms');
+} catch (err) {
+  console.log('⚠️  Farm routes not available:', err.message);
+}
+try {
+  sensorRoutes = require('./src/routes/sensors');
+} catch (err) {
+  console.log('⚠️  Sensor routes not available:', err.message);
+}
+try {
+  irrigationRoutes = require('./src/routes/irrigation');
+} catch (err) {
+  console.log('⚠️  Irrigation routes not available:', err.message);
+}
 
 const app = express();
 
@@ -84,12 +105,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/farms', farmRoutes);
-app.use('/api/sensors', sensorRoutes);
-app.use('/api/irrigation', irrigationRoutes);
+// API Routes (only if available)
+if (authRoutes) app.use('/api/auth', authRoutes);
+if (userRoutes) app.use('/api/users', userRoutes);
+if (farmRoutes) app.use('/api/farms', farmRoutes);
+if (sensorRoutes) app.use('/api/sensors', sensorRoutes);
+if (irrigationRoutes) app.use('/api/irrigation', irrigationRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static('uploads'));

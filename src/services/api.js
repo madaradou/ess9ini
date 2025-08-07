@@ -1,27 +1,51 @@
 // API service for handling farm sensor data
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
   }
 
+  // Get auth token from localStorage
+  getToken() {
+    return localStorage.getItem('ess9ini_token');
+  }
+
+  // Get auth headers
+  getAuthHeaders() {
+    const token = this.getToken();
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  }
+
   // Generic fetch wrapper with error handling
   async fetchWithErrorHandling(url, options = {}) {
     try {
       const response = await fetch(url, {
+        ...options,
         headers: {
-          'Content-Type': 'application/json',
+          ...this.getAuthHeaders(),
           ...options.headers,
         },
-        ...options,
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Handle authentication errors
+        if (response.status === 401) {
+          // Token expired or invalid - redirect to login
+          localStorage.removeItem('ess9ini_token');
+          window.location.href = '/login';
+          throw new Error('Session expired. Please login again.');
+        }
+
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
       }
 
-      return await response.json();
+      return data;
     } catch (error) {
       console.error('API request failed:', error);
       throw error;

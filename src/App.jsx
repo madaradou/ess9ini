@@ -1,4 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import UserDashboard from './components/dashboard/UserDashboard';
 import MoistureGauge from './components/dashboard/MoistureGauge';
 import FarmMap from './components/dashboard/FarmMap';
 import AboutUs from './components/AboutUs';
@@ -7,8 +12,59 @@ import aiPredictor from './services/ai-predictor';
 import logo from './assets/images/logo__ess9ini.png';
 import './App.css';
 
-function App() {
-  // Mock data for Tunisian olive farm
+// Authentication wrapper component
+const AuthWrapper = () => {
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const [authMode, setAuthMode] = useState('login'); // 'login' or 'signup'
+
+  // Show loading screen while checking authentication
+  if (authLoading) {
+    return (
+      <div className="app">
+        <div className="loading">
+          <div className="loading-spinner-large"></div>
+          <p>جاري تحميل إسقيني... / Loading Ess9ini...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication screens if not logged in
+  if (!isAuthenticated) {
+    return (
+      <>
+        {authMode === 'login' ? (
+          <Login
+            onSwitchToSignup={() => setAuthMode('signup')}
+            onForgotPassword={() => {
+              // TODO: Implement forgot password
+              console.log('Forgot password clicked');
+            }}
+          />
+        ) : (
+          <Signup
+            onSwitchToLogin={() => setAuthMode('login')}
+          />
+        )}
+      </>
+    );
+  }
+
+  // User is authenticated, show the dashboard
+  return (
+    <ProtectedRoute>
+      <UserDashboard>
+        <Dashboard />
+      </UserDashboard>
+    </ProtectedRoute>
+  );
+};
+
+// Dashboard Component (authenticated users only)
+const Dashboard = () => {
+  const { user } = useAuth();
+
+  // Mock data for Tunisian olive farm (will be replaced with real data from backend)
   const mockSensorData = [
     {
       id: 1,
@@ -71,10 +127,10 @@ function App() {
   const [selectedSensor, setSelectedSensor] = useState(null);
   const [weatherData, setWeatherData] = useState(mockWeatherData);
   const [irrigationPrediction, setIrrigationPrediction] = useState(null);
-  const [loading, setLoading] = useState(false); // Changed to false for immediate display
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState('dashboard'); // Track current page
-  const [farmInfo] = useState({
+  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [farmInfo, setFarmInfo] = useState({
     name: 'مزرعة الزياتين، قابس',
     nameEn: 'Olive Farm, Gabès',
     cropType: 'Olive Trees',
@@ -86,6 +142,21 @@ function App() {
     { id: 2, type: 'warning', message: 'Sensor 1 needs attention (45%)', acknowledged: false },
     { id: 3, type: 'info', message: 'Irrigation scheduled for tomorrow 6:00 AM', acknowledged: true },
   ]);
+
+  // Update farm info based on user data
+  useEffect(() => {
+    if (user && user.farmId) {
+      // In a real app, you would fetch farm data from the API
+      // For now, we'll use the sample data from the database
+      setFarmInfo({
+        name: 'مزرعة الزياتين، قابس',
+        nameEn: 'Olive Farm, Gabès',
+        cropType: 'Olive Trees',
+        area: '12.5 hectares',
+        targetMoisture: 80,
+      });
+    }
+  }, [user]);
 
   // Arabic localization
   const labels = {
@@ -401,6 +472,15 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+// Main App Component
+function App() {
+  return (
+    <AuthProvider>
+      <AuthWrapper />
+    </AuthProvider>
   );
 }
 
